@@ -12,3 +12,5 @@ export const PORT: string = process.env.PORT || "8000";
 
 export const MONGO_URI: string = process.env.MONGO_URI || "";
 export const MONGO_DB: string = process.env.MONGO_DB || "";
+
+export const CORS_ORIGIN: string = process.env.CORS_ORIGIN || "";

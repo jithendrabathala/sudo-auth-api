@@ -1,12 +1,35 @@
-import express, { Express, Request, Response } from "express";
-import { createServer } from "http";
+import express, { Express } from "express";
+import { createServer, Server } from "http";
+import cors from "cors";
+import { rateLimit } from "express-rate-limit";
+import requestIp from "request-ip";
+
+import rootRouter from "./routes/index.routes";
+import { CORS_ORIGIN } from "./config/env";
 
 const app: Express = express();
 
-app.get("/", (_req: Request, res: Response) => {
-  res.json({ message: "Hello World" });
-});
+const httpServer: Server = createServer(app);
 
-const httpServer = createServer(app);
+app.use(express.json({ limit: "16kb" }));
+app.use(cors({ origin: CORS_ORIGIN.split(",") ?? "*", credentials: true }));
+app.use(requestIp.mw());
+
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    message:
+      "Too many requests from this IP, please try again after 15 minutes",
+    standardHeaders: false,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.clientIp as string,
+    handler: (_req, _res, _next, _options) => {
+      _res.send(`Rate limit reached for IP: ${_req.clientIp}`);
+    }
+  })
+);
+
+app.use("/api", rootRouter);
 
 export default httpServer;
