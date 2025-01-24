@@ -1,0 +1,32 @@
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+
+# Build directories
+/dist
+
+# Dependency directories
+/node_modules
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# lock files
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# config files
+.prettierrc
+.eslintrc
+.gitignore
+
+# git files
+.git
+.gitignore
+.gitattributes
+/.github
