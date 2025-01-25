@@ -6,6 +6,7 @@ import requestIp from "request-ip";
 
 import rootRouter from "./routes/index.routes";
 import { CORS_ORIGIN } from "./config/env";
+import { errorMiddleware } from "./middlewares/errors";
 
 const app: Express = express();
 
@@ -31,5 +32,7 @@ app.use(
 );
 
 app.use("/api", rootRouter);
+
+app.use(errorMiddleware);
 
 export default httpServer;
