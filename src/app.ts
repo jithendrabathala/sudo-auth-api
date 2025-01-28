@@ -7,6 +7,7 @@ import requestIp from "request-ip";
 import rootRouter from "./routes/index.routes";
 import { CORS_ORIGIN } from "./config/env";
 import { errorMiddleware } from "./middlewares/errors";
+import { TooManyRequests } from "./exceptions";
 
 const app: Express = express();
 
@@ -26,7 +27,7 @@ app.use(
     legacyHeaders: false,
     keyGenerator: (req) => req.clientIp as string,
     handler: (_req, _res, _next, _options) => {
-      _res.send(`Rate limit reached for IP: ${_req.clientIp}`);
+      throw new TooManyRequests(`Rate limit reached for IP: ${_req.clientIp}`);
     }
   })
 );

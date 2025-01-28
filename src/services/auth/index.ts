@@ -1,4 +1,4 @@
-import { BadRequestException } from "../../exceptions";
+import { BadRequestException, EntryAlreadyExists } from "../../exceptions";
 import UserModel from "../../models/User.model";
 import { IUser } from "../../types";
 
@@ -25,7 +25,7 @@ export const createUser = async ({
   });
 
   if (existingUser) {
-    throw new BadRequestException("User already exists");
+    throw new EntryAlreadyExists("User already exists");
   }
 
   return await UserModel.create({

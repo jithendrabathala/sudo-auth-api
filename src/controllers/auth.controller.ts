@@ -2,14 +2,13 @@ import { Request, RequestHandler, Response } from "express";
 import asyncHandler from "../utils/async-handler";
 import { BadRequestException } from "../exceptions";
 import { createUser, loginUser } from "../services/auth";
+import { SignUpSchema } from "../validations";
 
 export const register: RequestHandler = asyncHandler(
   async (req: Request, res: Response) => {
     const { username, password, email, profilePic } = req.body;
 
-    if (!username || !password || !email) {
-      throw new BadRequestException("Please provide all required fields");
-    }
+    SignUpSchema.parse({ username, password, email, profilePic });
 
     await createUser({ username, password, email, profilePic });
 
