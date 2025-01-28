@@ -8,4 +8,6 @@ export interface IUser extends Document {
   profilePic: string;
   createdAt?: string;
   updatedAt?: string;
+  comparePassword(candidatePassword: string): Promise<boolean>;
+  generateAccessToken(): Promise<string>;
 }

@@ -1,18 +1,26 @@
 import { BadRequestException } from "../../exceptions";
 import UserModel from "../../models/User.model";
+import { IUser } from "../../types";
+
+type TUser = {
+  username: string;
+  password: string;
+  email: string;
+  profilePic?: string;
+};
+
+type TLoginCredentials = {
+  usernameOrEmail: string;
+  password: string;
+};
 
 export const createUser = async ({
   username,
   password,
   email,
   profilePic
-}: {
-  username: string;
-  password: string;
-  email: string;
-  profilePic?: string;
-}) => {
-  const existingUser = await UserModel.findOne({
+}: TUser): Promise<IUser> => {
+  const existingUser: IUser | null = await UserModel.findOne({
     $or: [{ username }, { email }]
   });
 
@@ -26,4 +34,26 @@ export const createUser = async ({
     email,
     profilePic
   });
+};
+
+export const loginUser = async ({
+  usernameOrEmail,
+  password
+}: TLoginCredentials): Promise<any> => {
+  const user = await UserModel.findOne({
+    $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
+  });
+
+  if (!user) {
+    throw new BadRequestException("Invalid credentials");
+  }
+
+  if (!(await user.comparePassword(password))) {
+    throw new BadRequestException("Invalid Password");
+  }
+
+  return {
+    token: await user.generateAccessToken(),
+    message: "Login successful"
+  };
 };

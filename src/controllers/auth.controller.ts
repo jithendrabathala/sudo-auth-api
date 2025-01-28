@@ -1,7 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import asyncHandler from "../utils/async-handler";
 import { BadRequestException } from "../exceptions";
-import { createUser } from "../services/auth";
+import { createUser, loginUser } from "../services/auth";
 
 export const register: RequestHandler = asyncHandler(
   async (req: Request, res: Response) => {
@@ -18,5 +18,15 @@ export const register: RequestHandler = asyncHandler(
 );
 
 export const login: RequestHandler = asyncHandler(
-  async (req: Request, res: Response) => {}
+  async (req: Request, res: Response) => {
+    const { usernameOrEmail, password } = req.body;
+
+    if (!usernameOrEmail || !password) {
+      throw new BadRequestException("Please provide all required fields");
+    }
+
+    const response = await loginUser({ usernameOrEmail, password });
+
+    res.status(200).json(response);
+  }
 );

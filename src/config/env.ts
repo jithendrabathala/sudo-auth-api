@@ -1,4 +1,5 @@
 import { config } from "dotenv";
+import type { UnitAnyCase } from "./types";
 
 // process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -14,3 +15,10 @@ export const MONGO_URI: string = process.env.MONGO_URI || "";
 export const MONGO_DB: string = process.env.MONGO_DB || "";
 
 export const CORS_ORIGIN: string = process.env.CORS_ORIGIN || "";
+
+export const ACCESS_SECRET: string = process.env.ACCESS_SECRET!;
+export const ACCESS_EXPIRES_IN_UNIT = process.env
+  .ACCESS_EXPIRES_IN_UNIT! as UnitAnyCase;
+export const ACCESS_EXPIRES_IN_VALUE: number = parseInt(
+  process.env.ACCESS_EXPIRES_IN_VALUE!
+);

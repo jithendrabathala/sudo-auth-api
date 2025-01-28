@@ -8,6 +8,8 @@ export const errorMiddleware: ErrorRequestHandler = (
   res: Response,
   _next: NextFunction
 ) => {
+  console.log(error);
+
   if (error.errors) {
     logger.error(error.message);
   }

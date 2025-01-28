@@ -1,1 +1,1 @@
-export { hashPassword as hashPassword } from "./password";
+export { hashPassword, comparePassword } from "./password";
