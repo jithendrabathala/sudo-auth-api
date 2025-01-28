@@ -1,4 +1,8 @@
-import { BadRequestException, EntryAlreadyExists } from "../../exceptions";
+import {
+  BadRequestException,
+  EntryAlreadyExistsException
+} from "../../exceptions";
+import NotFoundException from "../../exceptions/not-found";
 import UserModel from "../../models/User.model";
 import { IUser } from "../../types";
 
@@ -25,7 +29,7 @@ export const createUser = async ({
   });
 
   if (existingUser) {
-    throw new EntryAlreadyExists("User already exists");
+    throw new EntryAlreadyExistsException("User already exists");
   }
 
   return await UserModel.create({
@@ -45,7 +49,7 @@ export const loginUser = async ({
   });
 
   if (!user) {
-    throw new BadRequestException("Invalid credentials");
+    throw new NotFoundException("Invalid credentials");
   }
 
   if (!(await user.comparePassword(password))) {

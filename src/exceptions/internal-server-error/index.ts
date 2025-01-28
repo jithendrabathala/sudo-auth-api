@@ -1,6 +1,6 @@
 import HttpException from "../http-exception";
 
-export default class InternalServerError extends HttpException {
+export default class InternalServerErrorException extends HttpException {
   constructor(message: string) {
     super(message, 500);
   }
