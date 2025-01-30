@@ -1,4 +1,5 @@
 import winston, { createLogger, transports } from "winston";
+import { NODE_ENV } from "../../config/env";
 
 // colour definitions
 const levelColors = {
@@ -18,7 +19,7 @@ const resetColor: string = "\x1b[0m";
 
 // Get log level based on the environment
 const level: string = (() => {
-  return process.env.NODE_ENV === "production" ? "warn" : "debug";
+  return NODE_ENV === "production" ? "warn" : "debug";
 })();
 
 // formatter with colorized `type`

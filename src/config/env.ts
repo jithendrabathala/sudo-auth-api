@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import type { UnitAnyCase } from "./types";
 
-// process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+process.env.NODE_ENV = "production";
 
 config({
   path: process.env.NODE_ENV ? `.env.${process.env.NODE_ENV}` : ".env"
