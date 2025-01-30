@@ -41,7 +41,7 @@ export const login: RequestHandler = asyncHandler(
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
       sameSite: "strict",
-      secure: NODE_ENV === "production"
+      secure: NODE_ENV === "production" && false
     });
 
     res
