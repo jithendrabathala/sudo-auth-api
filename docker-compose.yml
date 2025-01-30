@@ -1,6 +1,9 @@
-name: 'sudo-auth-api'
 services:
+  db:
+    image: mongo:6.0.12-jammy
+    ports:
+      - "27017:27017"
   api:
     build: .
     ports:
-      - '8080:8080'
+      - "8080:8080"
