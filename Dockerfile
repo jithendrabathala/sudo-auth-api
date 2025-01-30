@@ -16,6 +16,7 @@ WORKDIR /app
 
 COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/.env.production /app/.env.production
 
 RUN npm install --only=production
 
