@@ -22,3 +22,10 @@ export const ACCESS_EXPIRES_IN_UNIT = process.env
 export const ACCESS_EXPIRES_IN_VALUE: number = parseInt(
   process.env.ACCESS_EXPIRES_IN_VALUE!
 );
+
+export const REFRESH_SECRET: string = process.env.REFRESH_SECRET!;
+export const REFRESH_EXPIRES_IN_UNIT = process.env
+  .REFRESH_EXPIRES_IN_UNIT! as UnitAnyCase;
+export const REFRESH_EXPIRES_IN_VALUE: number = parseInt(
+  process.env.REFRESH_EXPIRES_IN_VALUE!
+);

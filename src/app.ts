@@ -3,7 +3,7 @@ import { createServer, Server } from "http";
 import cors from "cors";
 import { rateLimit } from "express-rate-limit";
 import requestIp from "request-ip";
-
+import cookieParser from "cookie-parser";
 import rootRouter from "./routes/index.routes";
 import { CORS_ORIGIN } from "./config/env";
 import { errorMiddleware } from "./middlewares/errors";
@@ -16,6 +16,7 @@ const httpServer: Server = createServer(app);
 app.use(express.json({ limit: "16kb" }));
 app.use(cors({ origin: CORS_ORIGIN.split(",") ?? "*", credentials: true }));
 app.use(requestIp.mw());
+app.use(cookieParser());
 
 app.use(
   rateLimit({

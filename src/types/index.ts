@@ -1,1 +1,8 @@
-export { IUser } from "./user";
+import { Request } from "express";
+import { JwtPayload } from "jsonwebtoken";
+
+export interface CustomRequest extends Request {
+  user?: string | JwtPayload;
+}
+
+export { IUser, TLoginResponse } from "./user";

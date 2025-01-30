@@ -4,7 +4,7 @@ import {
 } from "../../exceptions";
 import NotFoundException from "../../exceptions/not-found";
 import UserModel from "../../models/User.model";
-import { IUser } from "../../types";
+import { IUser, TLoginResponse } from "../../types";
 
 type TUser = {
   username: string;
@@ -43,8 +43,8 @@ export const createUser = async ({
 export const loginUser = async ({
   usernameOrEmail,
   password
-}: TLoginCredentials): Promise<any> => {
-  const user = await UserModel.findOne({
+}: TLoginCredentials): Promise<TLoginResponse> => {
+  const user: IUser | null = await UserModel.findOne({
     $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }]
   });
 
@@ -57,7 +57,23 @@ export const loginUser = async ({
   }
 
   return {
-    token: await user.generateAccessToken(),
+    accessToken: await user.generateAccessToken(),
+    refreshToken: await user.generateRefreshToken(),
     message: "Login successful"
+  };
+};
+
+export const refreshTokenService = async (
+  userId: string
+): Promise<TLoginResponse> => {
+  const user: IUser | null = await UserModel.findById(userId);
+
+  if (!user) {
+    throw new NotFoundException("User not found");
+  }
+
+  return {
+    accessToken: await user.generateAccessToken(),
+    message: "Token refreshed successfully"
   };
 };

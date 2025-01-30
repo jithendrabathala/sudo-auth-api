@@ -1,7 +1,7 @@
 import { Model, Schema, model } from "mongoose";
 import { IUser } from "../types";
 import { hashPassword, comparePassword } from "../utils/auth";
-import { genAccessToken } from "../utils/jwt";
+import { genAccessToken, genRefreshToken } from "../utils/jwt";
 
 const UserSchema: Schema<IUser> = new Schema(
   {
@@ -36,6 +36,10 @@ UserSchema.methods.comparePassword = async function (password: string) {
 
 UserSchema.methods.generateAccessToken = async function () {
   return await genAccessToken(this as IUser);
+};
+
+UserSchema.methods.generateRefreshToken = async function () {
+  return await genRefreshToken(this as IUser);
 };
 
 export default model("users", UserSchema) as Model<IUser>;

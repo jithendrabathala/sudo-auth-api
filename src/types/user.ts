@@ -10,4 +10,11 @@ export interface IUser extends Document {
   updatedAt?: string;
   comparePassword(candidatePassword: string): Promise<boolean>;
   generateAccessToken(): Promise<string>;
+  generateRefreshToken(): Promise<string>;
 }
+
+export type TLoginResponse = {
+  accessToken: string;
+  message: string;
+  refreshToken?: string;
+};
