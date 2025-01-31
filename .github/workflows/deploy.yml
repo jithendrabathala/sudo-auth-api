@@ -1,0 +1,26 @@
+name: CI/CD to build and deploy to aws
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          echo "$EC2_SSH_KEY" > deploy_key.pem
+          chmod 600 deploy_key.pem
+          ssh -i deploy_key.pem $EC2_USERNAME@$EC2_HOST << 'EOF'
+          cd /home/ubuntu/
+          chmod +x deploy.sh
+          ./deploy.sh
+          EOF
+          rm deploy_key.pem
